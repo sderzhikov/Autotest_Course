@@ -10,10 +10,10 @@
 def multiplication_chain(num):
     count_multy = 0
     while num > 9:
-        product = 1
+        prod = 1
         for digit in str(num):
-            product *= int(digit)
-        num = product
+            prod *= int(digit)
+        num = prod
         count_multy += 1
     return count_multy
 

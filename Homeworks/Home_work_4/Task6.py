@@ -4,10 +4,8 @@
 # (1, 2, 3, 4, 5, 6, 7, 8, 9, 0)  => "(123) 456-7890"
 
 def create_phone_number(num_tuple):
-    area_code = "".join(map(str, num_tuple[:3]))
-    prefix = "".join(map(str, num_tuple[3:6]))
-    line_number = "".join(map(str, num_tuple[6:]))
-    return f"({area_code}) {prefix}-{line_number}"
+    return f"""({''.join(map(str, num_tuple[:3]))}) {''.join(map(str, num_tuple[3:6]))}-{''.join(map(str, num_tuple[6:]
+                                                                                                     ))}"""
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
