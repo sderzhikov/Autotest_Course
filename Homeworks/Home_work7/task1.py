@@ -8,7 +8,6 @@
 # Segment((2, 3), (4, 5)).length() --> 2.83
 # Segment((-2, -3), (4, 5)).x_axis_intersection() --> True
 # Segment((-2, -3), (4, -5)).y_axis_intersection() --> False
-import math
 
 
 class Segment:
@@ -21,7 +20,7 @@ class Segment:
         x2, y2 = self.point2
         if x1 == x2 and y1 == y2:
             return 0  # Возвращаем ноль, если точки совпадают
-        distance = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+        distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
         return round(distance, 2)
 
     def x_axis_intersection(self):
