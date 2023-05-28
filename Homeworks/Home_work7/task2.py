@@ -28,8 +28,6 @@ class PersonInfo:
         self.age = age
         self.departments = departments
 
-
-
     def short_name(self):
         first_name, last_name = self.full_name.split()
         return f'{last_name} {first_name[0]}.'
@@ -38,7 +36,6 @@ class PersonInfo:
         return ' --> '.join(self.departments)
 
     def new_salary(self):
-
         letter_count = {}
         for department in self.departments:
             for letter in department:

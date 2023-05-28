@@ -41,8 +41,7 @@ class Bus(PublicTransport):
     def __init__(self, brand, engine_power, year, color, max_speed, passengers, park, fare):
         super().__init__(brand, engine_power, year, color, max_speed)
         self.passengers = passengers
-        self.__park = None
-        self.park = park
+        self.__park = park
         self._fare = fare
 
     @property
