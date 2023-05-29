@@ -21,17 +21,15 @@ class Trigon:
         if len(args) != 3:
             raise IndexError(f"Передано {len(args)} аргументов, а ожидается 3")
 
-        sides = []
-        for arg in args:
-            if not isinstance(arg, (int, float)):
-                raise TypeError("Стороны должны быть числами")
-            if arg <= 0:
+        try:
+            a, b, c = sorted(args)
+            if any(side <= 0 for side in (a, b, c)):
                 raise ValueError("Стороны должны быть положительными")
-            sides.append(arg)
+            elif a + b <= c:
+                raise Exception("Не треугольник")
+        except TypeError:
+            raise TypeError('Стороны должны быть числами')
 
-        a, b, c = sorted(sides)
-        if a + b <= c:
-            raise Exception("Не треугольник")
 
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 

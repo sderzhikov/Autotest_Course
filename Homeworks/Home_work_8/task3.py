@@ -14,11 +14,9 @@ def segment(point1, point2):
 
         return x1 + y1 + x2 + y2
 
-    except Exception as e:
-        reversed_words = [word[::-1] for word in str(e).split()]
-        print(reversed_words)
-        return ' '.join(reversed_words[::-1])
-
+    except Exception as ex:
+        return ex.args[0][::-1]
+# надо проще: return e.args[0][::-1]
 # Ниже НИЧЕГО НЕ НАДО ИЗМЕНЯТЬ
 
 
