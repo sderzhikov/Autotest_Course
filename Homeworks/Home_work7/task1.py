@@ -18,8 +18,6 @@ class Segment:
     def length(self):
         x1, y1 = self.point1
         x2, y2 = self.point2
-        if x1 == x2 and y1 == y2:
-            return 0  # Возвращаем ноль, если точки совпадают
         distance = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
         return round(distance, 2)
 
