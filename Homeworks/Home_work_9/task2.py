@@ -31,6 +31,7 @@
 # Реализовать без подключения новых модулей и сторонних библиотек.
 import datetime
 import functools
+import time
 
 
 def func_log(file_log='log.txt'):
@@ -53,12 +54,14 @@ def func_log(file_log='log.txt'):
 @func_log()
 def func1():
     """Функция 1"""
+    time.sleep(3)
     pass
 
 
 @func_log(file_log='func2.txt')
 def func2():
     """Функция 2"""
+    time.sleep(5)
     pass
 
 # Вызов функций
