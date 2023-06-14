@@ -36,17 +36,6 @@ driver.switch_to.window(driver.window_handles[-1])
 block = driver.find_element(By.CSS_SELECTOR, "div.tensor_ru-Index__block4-content.tensor_ru-Index__card")
 button = block.find_element(By.CSS_SELECTOR, "a.tensor_ru-link.tensor_ru-Index__link[href='/about']")
 
-# Проверяем, что это блок с текстом "Свои люди"
-if "Сила в людях" in block.text:
-    classes = block.get_attribute("class")
-    if "tensor_ru-Index__block4-content" in classes and "tensor_ru-Index__card" in classes:
-        print("Это блок с текстом 'Сила в людях'")
-    else:
-        print("Это не блок с текстом 'Сила в людях'")
-else:
-    print("Текст 'Сила в людях' не найден")
-
-
 # Скроллим до блока
 actions = ActionChains(driver)
 actions.move_to_element(button).perform()
@@ -63,10 +52,7 @@ expected_url = "https://tensor.ru/about"
 current_url = driver.current_url
 
 # Проверяем, что мы попали на нужную страницу
-if current_url == expected_url:
-    print("Мы находимся на странице https://tensor.ru/about")
-else:
-    print(f"Текущий URL: {current_url}, ожидался URL: {expected_url}")
+assert current_url == expected_url, "Не то"
 
 # Закрытие веб-драйвера
 driver.quit()

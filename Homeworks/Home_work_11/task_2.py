@@ -4,6 +4,7 @@
 # Убедиться, что сообщение появилось в реестре
 # Удалить это сообщение и убедиться, что удалили
 # Для сдачи задания пришлите код и запись с экрана прохождения теста
+import datetime
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -14,7 +15,7 @@ import time
 driver = webdriver.Chrome()
 
 # Переход на страницу авторизации
-driver.get("https://fix-online.sbis.ru/")
+driver.get("https://fix-online.sbis.ru/page/dialogs")
 driver.maximize_window()
 time.sleep(2)
 # Ввод логина и пароля
@@ -32,22 +33,14 @@ time.sleep(2)
 # Нажатие на кнопку "Войти"
 login_button = driver.find_element(By.CSS_SELECTOR, '.auth-AdaptiveLoginForm__loginButtonImage')
 login_button.click()
-time.sleep(5)
+time.sleep(10)
 
-# Находим и кликаем на пункт аккордеона с текстом "Контакты"
-accordion_items = driver.find_elements(By.CSS_SELECTOR, '[data-qa="NavigationPanels-Accordion__title"]')
-for item in accordion_items:
-    if "Контакты" in item.text:
-        actions = ActionChains(driver)
-        actions.click(item).click(item).perform()
-        break
-time.sleep(5)
 # Нажатие на кнопку создания нового сообщения
 create_message_button = driver.find_element(By.CSS_SELECTOR, '.controls-Button__icon.icon-RoundPlus')
 create_message_button.click()
-time.sleep(2)
+time.sleep(5)
 # Ввод получателя сообщения
-receiver_input = driver.find_element(By.CSS_SELECTOR, '[name="ws-input_2023-06-13"]')
+receiver_input = driver.find_element(By.CSS_SELECTOR, '[data-qa="addressee-selector-root"] input')
 receiver_input.clear()
 receiver_input.send_keys("Админ Всея")
 time.sleep(2)
@@ -64,28 +57,31 @@ time.sleep(2)
 # Отправка сообщения
 send_button = driver.find_element(By.CSS_SELECTOR, '.icon-BtArrow')
 send_button.click()
-time.sleep(2)
+time_sent = datetime.datetime.now()
+time.sleep(8)
 # Поиск сообщения в списке
 # Находим все элементы с классом msg-dialogs-item_unread и текстом "Как же я устал, Боже"
-message_elements = driver.find_elements(By.CSS_SELECTOR, '.msg-dialogs-item_unread')
+message_elements = driver.find_elements(By.CSS_SELECTOR, '.controls-ListView__itemContent:has(.msg-dialogs-item_unread)')
 
 # Перебираем найденные элементы
 for message_element in message_elements:
     # Проверяем текст сообщения
-    if "Как же я устал, Боже" in message_element.text:
+    if time_sent.strftime("%H:%M") in message_element.find_element(By.CSS_SELECTOR, "[data-qa='msg-entity-date']").text \
+            and "Как же я устал, Боже" in message_element.text:
         # Выполняем наведение на элемент
         ActionChains(driver).move_to_element(message_element).perform()
-
-        # Выполняем клик правой кнопкой мыши
-        ActionChains(driver).context_click(message_element).perform()
-
+        time.sleep(1)
         # Прерываем цикл, так как нашли нужное сообщение
         break
 
-# Проверяем, видима ли кнопка "Перенести в удалённые"
-move_to_trash_button = driver.find_element(By.CSS_SELECTOR, '.icon-Erase')
-move_to_trash_button.click()
 
+erase = driver.find_element(By.XPATH, '//div[@class="controls-itemActionsV__wrapper"]//i[contains(@class, "icon-Erase")]')
+erase.click()
+time.sleep(8)
+for message_element in message_elements:
+    # Проверяем текст сообщения
+    assert time_sent.strftime("%H:%M") in message_element.find_element(By.CSS_SELECTOR, "[data-qa='msg-entity-date']").text
+    assert "Как же я устал, Боже" in message_element.text
 
 # Закрытие браузера
 driver.quit()
